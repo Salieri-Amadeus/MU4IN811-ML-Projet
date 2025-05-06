@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 # ====== 生成三类二维高斯分布数据 ======
 def generate_multiclass_data(n_per_class=100, seed=0):
     np.random.seed(seed)
-    means = [[-1, -1], [2, 0], [0, 2]]
+    means = [[-1, -1], [1, 1], [1, -1]]
     X = []
     Y = []
     for i, mean in enumerate(means):
