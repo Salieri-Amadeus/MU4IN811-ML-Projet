@@ -5,7 +5,6 @@ def SGD(optim, X, Y, batch_size=32, epochs=1000, verbose=True):
     history = {"loss": [], "accuracy": []}
 
     for epoch in range(epochs):
-        # 打乱数据
         indices = np.random.permutation(N)
         X_shuffled = X[indices]
         Y_shuffled = Y[indices]

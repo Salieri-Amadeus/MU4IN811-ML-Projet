@@ -61,7 +61,6 @@ class TanH(Module):
         return self._output
 
     def backward_update_gradient(self, input, delta):
-        # 没有参数，无需计算梯度
         pass
 
     def backward_delta(self, input, delta):
@@ -69,7 +68,6 @@ class TanH(Module):
         return delta * (1 - self._output ** 2)
 
     def update_parameters(self, gradient_step=1e-3):
-        # 没有参数可更新
         pass
 
     def zero_grad(self):
@@ -84,7 +82,6 @@ class Sigmoide(Module):
         return self._output
 
     def backward_update_gradient(self, input, delta):
-        # 没有参数
         pass
 
     def backward_delta(self, input, delta):
@@ -103,18 +100,16 @@ class Softmax(Module):
 
     def forward(self, X):
         self._input = X
-        # 数值稳定性：减去每行最大值
         shifted = X - np.max(X, axis=1, keepdims=True)
         exp = np.exp(shifted)
         self._output = exp / np.sum(exp, axis=1, keepdims=True)
         return self._output
 
     def backward_update_gradient(self, input, delta):
-        pass  # 无可训练参数
+        pass
 
     def backward_delta(self, input, delta):
-        # 使用 softmax 的雅可比矩阵乘以 delta，或直接使用误差
-        return delta  # 对于交叉熵损失的输出层，delta = yhat - y，已是正确梯度
+        return delta
 
     def update_parameters(self, gradient_step=1e-3):
         pass

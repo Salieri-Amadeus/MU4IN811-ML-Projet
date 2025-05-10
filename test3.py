@@ -7,7 +7,6 @@ from sgd import SGD
 from loss import CrossEntropyLoss
 from sklearn.model_selection import train_test_split
 
-# ==== 生成 XOR 数据 ====
 def generate_xor_data(n=100):
     X00 = np.random.multivariate_normal([-1,-1], np.eye(2)*0.1, n)
     X01 = np.random.multivariate_normal([1,1], np.eye(2)*0.1, n)
@@ -22,11 +21,9 @@ def generate_xor_data(n=100):
     idx = np.random.permutation(len(X))
     return X[idx], Y[idx]
 
-# ==== 数据准备 ====
 X, Y = generate_xor_data()
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3)
 
-# ==== 网络定义 ====
 net = Sequentiel(
     Linear(2, 10),
     TanH(),
@@ -37,15 +34,12 @@ net = Sequentiel(
 loss_fn = CrossEntropyLoss()
 optim = Optim(net, loss_fn, eps=0.1)
 
-# ==== 训练 ====
 history = SGD(optim, X_train, Y_train, batch_size=16, epochs=1000)
 
-# ==== 测试集准确率 ====
 y_test_pred = (net.forward(X_test) >= 0.5).astype(int)
 acc = np.mean(y_test_pred == Y_test)
 print(f"\nTest Accuracy: {acc:.2%}")
 
-# ==== 训练曲线 ====
 plt.figure(figsize=(10, 4))
 plt.subplot(1, 2, 1)
 plt.plot(history["loss"], label="Loss")
@@ -53,7 +47,6 @@ plt.plot(history["accuracy"], label="Accuracy")
 plt.legend()
 plt.title("Training loss and accuracy")
 
-# ==== 分类边界可视化 ====
 plt.subplot(1, 2, 2)
 xx, yy = np.meshgrid(np.linspace(-2, 2, 200), np.linspace(-2, 2, 200))
 grid = np.c_[xx.ravel(), yy.ravel()]
